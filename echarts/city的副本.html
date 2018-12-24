@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body  bgcolor="#F2F2F2">
+    <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
+    <div id="main" style="width: 621px;height:606px;"></div>
+    <script src="jquery.min.js"></script>
+    <script src="echarts.js"></script>
+    <script src="hainan.js"></script>
+    <script src="ColdCar.js"></script>
+    <script type="text/javascript">
+       // 基于准备好的dom，初始化echarts实例
+        
+       var myChart = echarts.init(document.getElementById('main'));
+       var data =[ {
+			name : "海口市",
+			value : 80
+		},
+		
+		{
+			name : "三亚市",
+			value : 100
+		},
+		
+
+		{
+			name : "五指山市",
+			value : 100
+		},
+		
+		{
+			name : "琼海市",
+			value : 100
+		},
+		
+		{
+			name : "儋州市",
+			value : 10
+		}, {
+			name : "万宁市",
+			value : 60
+		},
+		
+		{
+			name : "东方市",
+			value : 80
+		}, {
+			name : "文昌市",
+			value : 50
+		}, {
+			name : "定安县",
+			value : 10
+		}, {
+			name : "屯昌县",
+			value : 10
+		}, {
+			name : "澄迈县",
+			value : 50
+		}, {
+			name : "临高县",
+			value : 10
+		}, {
+			name : "白沙黎族自治县",
+			value : 5
+		}, {
+			name : "昌江黎族自治县",
+			value : 5
+		}, {
+			name : "乐东黎族自治县",
+			value : 40
+		}, {
+			name : "陵水黎族自治县",
+			value : 80
+		}, {
+			name : "保亭黎族苗族自治县",
+			value : 5
+		}, {
+			name : "琼中黎族苗族自治县",
+			value : 5
+		} ];
+		var geoCoordMap = {
+			"海口市" : [ 110.38119, 19.9 ],
+			"三亚市" : [ 109.4, 18.35 ],
+			"五指山市" : [ 109.496662, 18.816921 ],
+			"琼海市" : [ 110.466785, 19.246011 ],
+			"儋州市" : [ 109.356782, 19.617486 ],
+			"万宁市" : [ 110.388793, 18.796216 ],
+			"东方市" : [ 108.9, 19 ],
+			"文昌市" : [ 110.853975, 19.712986 ],
+			"定安县" : [ 110.349235, 19.484966 ],
+			"屯昌县" : [ 110.032773, 19.362916 ],
+
+			"澄迈县" : [ 110.007147, 19.737095 ],
+			"临高县" : [ 109.707697, 19.870293 ],
+			"白沙黎族自治县" : [ 109.352606, 19.224584 ],
+			"昌江黎族自治县" : [ 109.003351, 19.260968 ],
+			"乐东黎族自治县" : [ 109.075444, 18.64758 ],
+			"陵水黎族自治县" : [ 109.977218, 18.505006 ],
+			"保亭黎族苗族自治县" : [ 109.657245, 18.586371 ],
+			"琼中黎族苗族自治县" : [ 109.839996, 19.03557 ],
+		};
+
+		var convertData = function(data) {
+			var res = [];
+			for (var i = 0; i < data.length; i++) {
+				var geoCoord = geoCoordMap[data[i].name];
+				if (geoCoord) {
+					res.push(
+							{
+							name: data[i].name,
+							value: geoCoord.concat(data[i].value)
+							//value: data[i].value
+							});
+				}
+			}
+			return res;
+		};
+
+		var option = {
+		  backgroundColor : '#122845',
+			visualMap : {
+				min : 0,
+				max : 100,
+				splitNumber : 5,
+				inRange : {
+					//color: ['#d94e5d','#eac736','#50a3ba'].reverse()
+					color : [ '#E7453A', '#eac736', '#50a3ba' ].reverse()
+				},
+				textStyle : {
+					color : '#fff'
+				}
+			},
+			tooltip : {
+				//trigger : 'item'
+				
+					formatter: function (obj) {
+			            var name = obj.name;
+			            var value = obj.value;
+			            return   name + ':  '
+			                   + value[2] + ' 万游客';
+					}
+			},
+			series : [ {
+				name : '游客人数',
+				//  type: 'heatmap',
+				type : 'effectScatter',
+				  label: {
+	            	   show: false,
+	            	   formatter: function (obj) {
+				            var value = obj.value;
+				            return   value[2] + ' 万';
+						},
+	            	   textStyle: {
+	       		        color: 'rgba(255, 255, 255, 0.7)'
+	       		      },	        
+	               },
+				symbolSize : 19,
+				coordinateSystem : 'geo',
+				data : convertData(data)
+			} ],
+    
+           
+           geo :
+        	   {//引入海南省的地图
+               map: '海南',
+               label: {
+            	   show: true,
+            	   textStyle: {
+       		        color: 'rgba(255, 255, 255, 0.7)'
+       		      },
+                   emphasis: {
+                       show: false
+                   }
+               },
+               roam: true,
+              
+				zoom : 1.5,
+				center : [ 109.9, 19.15 ],
+				
+                itemStyle: {
+                   normal: {
+              
+                	   areaColor: '#ffe7ba'
+                   },
+                   emphasis: {
+                      // areaColor: '#b3f3f3'
+                   }
+                },
+                regions: [//对不同的区块进行着色
+                   {
+                       name: '海口市',
+                       
+                       itemStyle: {
+                           normal: {
+                                areaColor: '#873800'
+                           }
+                       }
+                   }, {
+                       name: '三亚市',
+                       itemStyle: {
+                           normal: {
+                               areaColor: '#873800'
+                           }
+                       }
+                   }, {
+                       name: '澄迈县',
+                       itemStyle: {
+                           normal: {
+                               areaColor: '#d46b08'
+                           }
+                       }
+                   }, {
+                       name: '琼海市',
+                       itemStyle: {
+                           normal: {
+                               areaColor: '#d46b08'
+                           }
+                       }
+                   }, {
+                       name: '儋州市',
+                       itemStyle: {
+                           normal: {
+                               areaColor: '#ffa940'
+                           }
+                       }
+                   }, {
+                       name: '文昌市',
+                       itemStyle: {
+                           normal: {
+                               areaColor: '#ffa940'
+                           }
+                       }
+                   }, {
+                       name: '万宁市',
+                       itemStyle: {
+                           normal: {
+                               areaColor: '#ffa940'
+                           }
+                       }
+                   }, {
+                       name: '陵水黎族自治县',
+                       itemStyle: {
+                           normal: {
+                               areaColor: '#d46b08'
+                           }
+                       }
+                   }, {
+                       name: '东方市',
+                       itemStyle: {
+                           normal: {
+                              areaColor: '#ffc069'
+                           }
+                       }
+                   }, {
+                       name: '五指山市',
+                       itemStyle: {
+                           normal: {
+                               areaColor: '#ffc069'
+                           }
+                       }
+                   }
+               ]
+           }
+        
+       };
+       myChart.setOption(option);
+    </script>
+</body>
+
+</html>

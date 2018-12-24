@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>旅游方式</title>
+    <!-- 引入 echarts.js -->
+    <script src="echarts.min.js"></script>
+</head>
+<body bgcolor="#F2F2F2">
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <div id="main" style="width: 414px;height:270px;"></div>
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+
+        // 指定图表的配置项和数据
+        var option = {
+        	backgroundColor: '#122845',
+        	textStyle: {
+		        color: 'rgba(255, 255, 255, 1)'
+		    },
+            tooltip: {},
+            legend: {
+                data:['方式']
+            },
+            xAxis: {
+                data: [ '18岁以下', '18～29岁', '30～39岁', '40～49岁', '50岁以上' ]
+            },
+            yAxis: {},
+            series: [{
+                name: '比例',
+                type: 'bar',
+                data: [3228, 2851,3189,3072,3217]
+            }]
+        };
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    </script>
+</body>
+</html>

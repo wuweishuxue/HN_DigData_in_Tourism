@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,height=device-height">
+    <title>axis-label offset 配置</title>
+    <style>::-webkit-scrollbar{display:none;}html,body{overflow:hidden;height:100%;margin:0;}</style>
+</head>
+<body>
+<div id="mountNode"></div>
+<script>/*Fixing iframe window.innerHeight 0 issue in Safari*/document.body.clientHeight;</script>
+<script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g2-3.3.2/dist/g2.min.js"></script>
+<script>
+var data = [{
+  year: '1951 年',
+  sales: 38
+}, {
+  year: '1952 年',
+  sales: 52
+}, {
+  year: '1956 年',
+  sales: 61
+}, {
+  year: '1957 年',
+  sales: 145
+}, {
+  year: '1958 年',
+  sales: 48
+}, {
+  year: '1959 年',
+  sales: 38
+}, {
+  year: '1960 年',
+  sales: 38
+}, {
+  year: '1962 年',
+  sales: 38
+}];
+var chart = new G2.Chart({
+  container: 'mountNode',
+  forceFit: true,
+  height: window.innerHeight
+});
+chart.source(data);
+chart.scale('sales', {
+  tickInterval: 20
+});
+chart.axis('sales', {
+  label: {
+    offset: [-10, 10]
+  }
+});
+chart.interval().position('year*sales');
+chart.render();
+</script></body>
+</html>

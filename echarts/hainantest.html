@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>ECharts</title>
+<!-- 引入 echarts.js -->
+<script src="jquery.min.js"></script>
+<script src="echarts.js"></script>
+<script src="hainan.js"></script>
+<script src="ColdCar.js"></script>
+</head>
+<body bgcolor="#122845" >
+	<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+	<div id="main" style="width: 800px; height: 600px;"></div>
+	<script type="text/javascript">
+		// 基于准备好的dom，初始化echarts实例
+
+		var myChart = echarts.init(document.getElementById('main'));
+
+		var data =[ {
+			name : "海口市",
+			value : 71333
+		},
+		
+		{
+			name : "三亚市",
+			value : 73666
+		},
+		
+
+		{
+			name : "五指山市",
+			value : 3400
+		},
+		
+		{
+			name : "琼海市",
+			value : 15003
+		},
+		
+		{
+			name : "儋州市",
+			value : 13000
+		}, {
+			name : "万宁市",
+			value : 21030
+		},
+		
+		{
+			name : "东方市",
+			value : 2400
+		}, {
+			name : "文昌市",
+			value : 13092
+		}, {
+			name : "定安县",
+			value : 10300
+		}, {
+			name : "屯昌县",
+			value : 3100
+		}, {
+			name : "澄迈县",
+			value : 9500
+		}, {
+			name : "临高县",
+			value : 4510
+		}, {
+			name : "白沙县",
+			value : 1050
+		}, {
+			name : "昌江县",
+			value : 1250
+		}, {
+			name : "乐东县",
+			value : 3400
+		}, {
+			name : "陵水县",
+			value : 18003
+		}, {
+			name : "保亭县",
+			value : 9005
+		}, {
+			name : "琼中县",
+			value : 4505
+		} ];
+		var geoCoordMap = {
+			"海口市" : [ 110.38119, 19.9 ],
+			"三亚市" : [ 109.4, 18.35 ],
+			"五指山市" : [ 109.496662, 18.816921 ],
+			"琼海市" : [ 110.466785, 19.246011 ],
+			"儋州市" : [ 109.356782, 19.617486 ],
+			"万宁市" : [ 110.388793, 18.796216 ],
+			"东方市" : [ 108.9, 19 ],
+			"文昌市" : [ 110.853975, 19.712986 ],
+			"定安县" : [ 110.349235, 19.484966 ],
+			"屯昌县" : [ 110.032773, 19.362916 ],
+
+			"澄迈县" : [ 110.007147, 19.737095 ],
+			"临高县" : [ 109.707697, 19.870293 ],
+			"白沙县" : [ 109.352606, 19.224584 ],
+			"昌江县" : [ 109.003351, 19.260968 ],
+			"乐东县" : [ 109.075444, 18.64758 ],
+			"陵水县" : [ 109.977218, 18.505006 ],
+			"保亭县" : [ 109.657245, 18.586371 ],
+			"琼中县" : [ 109.839996, 19.03557 ],
+		};
+
+		var convertData = function(data) {
+			var res = [];
+			for (var i = 0; i < data.length; i++) {
+				var geoCoord = geoCoordMap[data[i].name];
+				if (geoCoord) {
+					res.push(
+							{
+							name: data[i].name,
+							value: geoCoord.concat(data[i].value)
+							//value: data[i].value
+							});
+				}
+			}
+			return res;
+		};
+
+		var option = {
+			backgroundColor : '#122845',
+			visualMap : {
+				//min : 0,
+				//max : 75000,
+				splitNumber : 5,
+				
+				
+				 pieces: [
+				 {min: 50001, label: '>50000'},
+				 {min: 30001, max: 50000, label: '30000 ~ 50000'},
+				 {min: 10001, max: 30000, label: '10000 ~ 30000'},
+				 {min: 5000, max: 10000, label: '5000~10000'},
+				 {min: 0, max: 5000, label: '5000以下'},
+				 
+				 ],
+				
+				 inRange : {
+						///color: ['#41d9c7','#2Fc25b','#facc14','#e6965c','#5c8ee6','#8543e0','#13c2c2','#f04864']
+		                 color : [ '#E7453A', '#eac736', '#50a3ba' ].reverse()
+					},
+					textStyle : {
+						color : '#fff'
+					}
+				
+			},
+			tooltip : {
+				//trigger : 'item'
+				
+					formatter: function (obj) {
+			            var name = obj.name;
+			            var value = obj.value;
+			            return   name + ':  '
+			                   + value[2] + ' 游客';
+					}
+			},
+			series : [ {
+				name : '游客人数',
+				//  type: 'heatmap',
+				type : 'effectScatter',
+				  label: {
+	            	   show: true,
+	            	   position : 'right',
+	            	 /*   formatter: function (obj) {
+				            var value = obj.value;
+				            var name = obj.name;
+				            return  name ;
+						},
+	            	   textStyle: {
+	       		        color: 'rgba(255, 255, 255, 0.7)'
+	       		      },	 */
+	       		      
+	       		    formatter: [
+	       	          "{a|"+ "  {b}" +"}" ,
+	       	        //  "{b|"+ "     {@[2]}万 "+"}"
+	       	       ].join('\n'),
+
+	       	      rich: {
+	       	         a: {
+	       	        	 color: 'rgba(255, 255, 255, 0.7)',
+	       	             fontSize: 13,
+	       	         },
+	       	         b: {
+	       	        	 color: 'rgba(233, 134, 56, 0.6)',
+	       	        	 // color: 'rgba(255, 255, 255, 0.7)',
+	       	             fontSize: 10
+	       	         },
+	       	       }
+	       		      
+	       		      
+	               },
+				symbolSize : 19,
+				coordinateSystem : 'geo',
+				data : convertData(data)
+			} ],
+
+			geo : {//引入海南省的地图
+				map : '海南',
+				 label: {
+					
+	            	   show: false,
+	            	   textStyle: {
+	       		        color: 'rgba(255, 255, 255, 0.4)'
+	       		       },
+					
+	                   emphasis: {
+	                      show: false
+	                   }
+	               },
+				roam : false,
+				zoom : 1.5,
+				center : [ 109.9, 19.15 ],
+				itemStyle : {
+					normal : {
+						borderColor : '#387ba7',
+						// shadowColor: 'rgba(0, 0, 0, 0.5)',
+						// shadowBlur: 10, 
+						// shadowOffsetX: 10,
+						areaColor : '#1B1B1B'
+					},
+					emphasis : {
+					// areaColor: '#b3f3f3'
+					}
+				}
+			}
+
+		};
+
+		// 使用刚指定的配置项和数据显示图表。
+		myChart.setOption(option);
+	</script>
+</body>
+</html>

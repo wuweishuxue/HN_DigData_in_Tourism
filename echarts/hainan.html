@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body  bgcolor="#122845">
+    <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
+    <div id="echartMap" style="width: 1000px;height:1000px;"></div>
+    <script src="jquery.min.js"></script>
+    <script src="echarts.js"></script>
+    <script src="hainan.js"></script>
+    <script src="ColdCar.js"></script>
+    <script type="text/javascript">
+       // 基于准备好的dom，初始化echarts实例
+           var heatData = [];
+           for (var i = 0; i < 200; ++i) {
+               heatData.push([
+                   100 + Math.random() * 20,
+                   24 + Math.random() * 16,
+                   Math.random()
+               ]);
+           }
+           for (var j = 0; j < 10; ++j) {
+               var x = 100 + Math.random() * 16;
+               var y = 24 + Math.random() * 12;
+               var cnt = 30 * Math.random();
+               for (var i = 0; i < cnt; ++i) {
+                   heatData.push([
+                       x + Math.random() * 2,
+                       y + Math.random() * 2,
+                       Math.random()
+                   ]);
+               }
+           }
+       var myChart = echarts.init(document.getElementById('echartMap'));
+       var option = {
+           
+           series : [
+               {
+            	   name: "热力图",
+            	   type : 'heatmap',
+                   data : heatData,
+                   coordinateSystem: 'geo'
+                  // hoverable : false
+                   
+               }
+           ],
+           
+           
+           geo :
+        	   {//引入海南省的地图
+               map: '海南',
+               label: {
+                   emphasis: {
+                       show: false
+                   }
+               },
+               roam: true,
+               zoom: 1,
+           
+               itemStyle: {
+                   normal: {
+                      // borderColor: '#387ba7',
+                    //   shadowColor: 'rgba(0, 0, 0, 0.5)',
+                     //  shadowBlur: 10,
+                    //   shadowOffsetX: 10
+                	   areaColor: '#1B1B1B'
+                   },
+                   emphasis: {
+                      // areaColor: '#b3f3f3'
+                   }
+               },
+               regions: [//对不同的区块进行着色
+                   {
+                       name: '海口市',
+                       itemStyle: {
+                           normal: {
+                               // areaColor: '#2b97df'
+                           }
+                       }
+                   }, {
+                       name: '三亚市',
+                       itemStyle: {
+                           normal: {
+                              // areaColor: '#a9d6fd'
+                           }
+                       }
+                   }, {
+                       name: '三沙市',
+                       itemStyle: {
+                           normal: {
+                              // areaColor: '#3497df'
+                           }
+                       }
+                   }, {
+                       name: '五指山市',
+                       itemStyle: {
+                           normal: {
+                              // areaColor: '#0d4369'
+                           }
+                       }
+                   }, {
+                       name: '琼海市',
+                       itemStyle: {
+                           normal: {
+                              // areaColor: '#005c9b'
+                           }
+                       }
+                   }, {
+                       name: '儋州市',
+                       itemStyle: {
+                           normal: {
+                              // areaColor: '#a9d6fd'
+                           }
+                       }
+                   }, {
+                       name: '文昌市',
+                       itemStyle: {
+                           normal: {
+                             //  areaColor: '#0d4369'
+                           }
+                       }
+                   }, {
+                       name: '万宁市',
+                       itemStyle: {
+                           normal: {
+                              // areaColor: '#005c9b'
+                           }
+                       }
+                   }, {
+                       name: '东方市',
+                       itemStyle: {
+                           normal: {
+                             //  areaColor: '#2b97df'
+                           }
+                       }
+                   }
+               ]
+           }
+        
+       };
+       myChart.setOption(option);
+    </script>
+</body>
+
+</html>

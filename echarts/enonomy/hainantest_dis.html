@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>ECharts</title>
+<!-- 引入 echarts.js -->
+<script src="../jquery.min.js"></script>
+<script src="../echarts.js"></script>
+<script src="../hainan.js"></script>
+<script src="../ColdCar.js"></script>
+</head>
+<body bgcolor="#F2F2F2" >
+	<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+	<div id="main" style="width: 621px; height: 600px;"></div>
+	<script type="text/javascript">
+		// 基于准备好的dom，初始化echarts实例
+
+		var myChart = echarts.init(document.getElementById('main'));
+
+		var data =[ {
+			name : "海澄文",
+			value : 1596
+		},
+		
+		{
+			name : "大三亚",
+			value : 2015.21
+		},
+		
+
+		{
+			name : "东部二市",
+			value : 933.42
+		},
+		
+		{
+			name : "西部区域",
+			value : 533.6
+		},
+		
+		{
+			name : "中部区域",
+			value : 297.2
+		} ];
+		var geoCoordMap = {
+			
+			"大三亚" : [ 109.4, 18.35 ],
+			"海澄文" : [110.38119, 19.9 ],
+			"东部二市" : [ 110.466785, 19.006011 ],
+			"西部区域" : [ 109.056782, 19.317486 ],
+			"中部区域" : [ 109.839996, 19.17557 ],
+		};
+
+		var convertData = function(data) {
+			var res = [];
+			for (var i = 0; i < data.length; i++) {
+				var geoCoord = geoCoordMap[data[i].name];
+				if (geoCoord) {
+					res.push(
+							{
+							name: data[i].name,
+							value: geoCoord.concat(data[i].value)
+							//value: data[i].value
+							});
+				}
+			}
+			return res;
+		};
+
+		var option = {
+			backgroundColor : '#122845',
+			
+			tooltip : {
+				//trigger : 'item'
+				
+					formatter: function (obj) {
+			            var name = obj.name;
+			            var value = obj.value;
+			            return   name + ':  '
+			                   + value[2] + ' 万游客';
+					}
+			},
+			series : [ {
+				name : '游客人数',
+				//  type: 'heatmap',
+				type : 'effectScatter',
+				  label: {
+	            	   show: true,
+	            	   position : 'right',
+	            	 /*   formatter: function (obj) {
+				            var value = obj.value;
+				            var name = obj.name;
+				            return  name ;
+						},
+	            	   textStyle: {
+	       		        color: 'rgba(255, 255, 255, 0.7)'
+	       		      },	 */
+	       		      
+	       		    formatter: [
+	       	          "{a|"+ "  {b}" +"}" ,
+	       	          "{b|"+ "    }",
+	       	          "{c|"+ "     {@[2]}万 "+"}"
+	       	       ].join('\n'),
+
+	       	      rich: {
+	       	         a: {
+	       	        	 color: 'rgba(255, 255, 255, 1)',
+	       	             fontSize: 15,
+	       	         },
+	       	         b: {
+	       	        	 color: 'rgba(255, 255, 255, 1)',
+	       	        	 // color: 'rgba(255, 255, 255, 0.7)',
+	       	             fontSize: 5
+	       	         },
+	       	        c: {
+	       	        	 color: 'rgba(255, 255, 255, 1)',
+	       	        	 // color: 'rgba(255, 255, 255, 0.7)',
+	       	             fontSize: 11.5
+	       	         },
+	       	       }	       		           		      
+	               },
+				//symbolSize : 19,
+				 symbolSize: function (val) {
+		                return val[2] / 30;
+		            },
+		            rippleEffect: {
+		                brushType: 'stroke'
+		            },
+		           itemStyle: {
+		                normal: {
+		                    color: '#C23531'
+		                }
+		            },
+				coordinateSystem : 'geo',
+				data : convertData(data)
+			} ],
+
+			geo : {//引入海南省的地图
+				map : '海南',
+				 label: {
+					
+	            	   show: false,
+	            	   textStyle: {
+	       		        color: 'rgba(255, 255, 255, 0.4)'
+	       		       },
+					
+	                   
+	               },
+				roam : false,
+				zoom : 1.5,
+				center : [ 109.9, 19.15 ],
+				itemStyle : {
+					normal : {
+						borderColor : '#387ba7',
+						// shadowColor: 'rgba(0, 0, 0, 0.5)',
+						// shadowBlur: 10, 
+						// shadowOffsetX: 10,
+						areaColor : '#1B1B1B'
+					},
+					emphasis : {
+					// areaColor: '#b3f3f3'
+					}					
+				},
+				regions: [//对不同的区块进行着色
+	                   {
+	                       name: '海口市',
+	                       itemStyle: {
+	                           normal: {
+	                              //  areaColor: '#C23531'
+	                        	   areaColor: '#ffc069'
+	                           }
+	                       }
+	                   }, {
+	                       name: '澄迈县',
+	                       itemStyle: {
+	                           normal: {
+	                                areaColor: '#ffc069'
+	                           }
+	                       }
+	                   }, {
+	                       name: '文昌市',
+	                       itemStyle: {
+	                           normal: {
+	                        	   areaColor: '#ffc069'
+	                           }
+	                       }
+	                   }, {
+	                       name: '三亚市',
+	                       itemStyle: {
+	                           normal: {
+	                               areaColor: '#E98638'
+	                           }
+	                       }
+	                   }, {
+	                       name: '陵水县',
+	                       itemStyle: {
+	                           normal: {
+	                               areaColor: '#E98638'
+	                           }
+	                       }
+	                   }, {
+	                       name: '乐东县',
+	                       itemStyle: {
+	                           normal: {
+	                               areaColor: '#E98638'
+	                           }
+	                       }
+	                   }, {
+	                       name: '保亭县',
+	                       itemStyle: {
+	                           normal: {
+	                               areaColor: '#E98638'
+	                           }
+	                       }
+	                   }, {
+	                       name: '万宁市',
+	                       itemStyle: {
+	                           normal: {
+	                               areaColor: '#61A0A8'
+	                           }
+	                       }
+	                   }, {
+	                       name: '琼海市',
+	                       itemStyle: {
+	                           normal: {
+	                              areaColor: '#61A0A8'
+	                           }
+	                       }
+	                   }, {
+	                       name: '五指山市',
+	                       itemStyle: {
+	                           normal: {
+	                              areaColor: '#5cdbd3'
+	                           }
+	                       }
+	                   }, {
+	                       name: '琼中县',
+	                       itemStyle: {
+	                           normal: {
+	                              areaColor: '#5cdbd3'
+	                           }
+	                       }
+	                   }, {
+	                       name: '屯昌县',
+	                       itemStyle: {
+	                           normal: {
+	                              areaColor: '#5cdbd3'
+	                           }
+	                       }
+	                   }, {
+	                       name: '定安县',
+	                       itemStyle: {
+	                           normal: {
+	                              areaColor: '#5cdbd3'
+	                           }
+	                       }
+	                   }, {
+	                       name: '儋州市',
+	                       itemStyle: {
+	                           normal: {
+	                              areaColor: '#91C7AE'
+	                           }
+	                       }
+	                   }, {
+	                       name: '临高县',
+	                       itemStyle: {
+	                           normal: {
+	                              areaColor: '#91C7AE'
+	                           }
+	                       }
+	                   }, {
+	                       name: '白沙县',
+	                       itemStyle: {
+	                           normal: {
+	                              areaColor: '#91C7AE'
+	                           }
+	                       }
+	                   }, {
+	                       name: '东方市',
+	                       itemStyle: {
+	                           normal: {
+	                              areaColor: '#91C7AE'
+	                           }
+	                       }
+	                   }, {
+	                       name: '昌江县',
+	                       itemStyle: {
+	                           normal: {
+	                              areaColor: '#91C7AE'
+	                           }
+	                       }
+	                   }
+	                   
+	                   
+	               ]
+			}
+
+		};
+
+		// 使用刚指定的配置项和数据显示图表。
+		myChart.setOption(option);
+	</script>
+</body>
+</html>

@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>ECharts</title>
+    <!-- 引入 echarts.js -->
+    <script src="../echarts.js"></script>
+      <script src="../bmap.js"></script>
+    <script src="../jquery.min.js"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=9gk8qHyof2G32jkQbhIhVeSB2Pz3r3F4"></script>
+</head>
+<body bgcolor="#F2F2F2">
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <div id="main" style="width: 621px;height:439px;"></div>
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+
+        var lineList = [
+            "1", "10","11","12", "13","14","15","16", "17","18","19","106",
+            "2", "20","21","22", "23","24","25","26", "27","28","29",
+            "3", "30","31","32", "33","34","35","36", "37","38","39",
+            "4", "40","41","42", "43","44","45","46", "47","48","49",
+            "5", "50","51","52", "53","54","55","56", "57","58","59",
+            "6", "60","61","62", "63","64","65","66", "67","68","69",
+            "7", "70","71","72", "73","74","75","76", "77","78","79",
+            "8", "83","86","87", "89",
+            "9", "92","94","93", "99",
+            "D1", "D2","海棠1号","海棠2号", "海棠3号",
+            "微1路", "微2路","微3路","微4路", "微5路",
+            "天涯1号","天涯2号", "天涯3号",
+            ];
+        var lineData = [ ];
+        var busline = null;
+        var lineTag = 0;
+        var hStep = 300 / (lineList.length - 1);
+ 
+        //动态添加查询到的线路数据
+        var addLineData = function(points) {
+            var bPoints = new Array();
+            for (var i = 0; i < points.length; i++) {
+                bPoints.push([points[i].lng, points[i].lat]);
+            }
+            lineData.push({
+                "coords": bPoints,
+                lineStyle: {
+                    "normal": {
+                        "color": echarts.color.modifyHSL('#5A94DF', Math.round(hStep * lineTag))
+                    }
+                }
+            });
+
+            var tmpOption = {
+                series: [{
+                        data: lineData
+                    },
+                    {
+                        data: lineData
+                    }
+                ]
+            };
+            myChart.setOption(tmpOption);
+        };
+        //查询线路数据
+        var searchBusLine = function(busName) {
+            if (busline === null) {
+                busline = new BMap.BusLineSearch("三亚", {
+                    //renderOptions: {panel: "r-result", autoViewport: false },
+                    onGetBusListComplete: function(result) {
+                        if (result) {
+                            var fstLine = result.getBusListItem(0);
+                            busline.getBusLine(fstLine);
+                        }
+                    },
+                    onGetBusLineComplete: function(e) {
+                        console.log(e.getPath());
+                        addLineData(e.getPath());
+                        lineTag++;
+                        if (lineTag < lineList.length) {
+                            searchBusLine(lineList[lineTag]);
+                        }
+                    }
+                });
+            }
+            busline.getBusList(busName);
+        };
+
+        $(function() {
+            searchBusLine(lineList[lineTag]);
+        }); 
+       var option = {
+            bmap: {
+                center: [109.508268, 18.247872],
+                zoom: 12,
+                roam: true,
+                enableMapClick: false,
+                mapStyle: {
+                    'styleJson': [{
+                        "featureType": "water",
+                        "elementType": "all",
+                        "stylers": {
+                            "color": "#021019"
+                        }
+                    }, {
+                        "featureType": "highway",
+                        "elementType": "geometry.fill",
+                        "stylers": {
+                            "color": "#000000"
+                        }
+                    }, {
+                        "featureType": "highway",
+                        "elementType": "geometry.stroke",
+                        "stylers": {
+                            "color": "#147a92"
+                        }
+                    }, {
+                        "featureType": "arterial",
+                        "elementType": "geometry.fill",
+                        "stylers": {
+                            "color": "#000000"
+                        }
+                    }, {
+                        "featureType": "arterial",
+                        "elementType": "geometry.stroke",
+                        "stylers": {
+                            "color": "#0b3d51"
+                        }
+                    }, {
+                        "featureType": "local",
+                        "elementType": "geometry",
+                        "stylers": {
+                            "color": "#000000"
+                        }
+                    }, {
+                        "featureType": "land",
+                        "elementType": "all",
+                        "stylers": {
+                            "color": "#08304b"
+                        }
+                    }, {
+                        "featureType": "railway",
+                        "elementType": "geometry.fill",
+                        "stylers": {
+                            "color": "#000000"
+                        }
+                    }, {
+                        "featureType": "railway",
+                        "elementType": "geometry.stroke",
+                        "stylers": {
+                            "color": "#08304b"
+                        }
+                    }, {
+                        "featureType": "subway",
+                        "elementType": "geometry",
+                        "stylers": {
+                            "lightness": -70
+                        }
+                    }, {
+                        "featureType": "building",
+                        "elementType": "geometry.fill",
+                        "stylers": {
+                            "color": "#000000"
+                        }
+                    }, {
+                        "featureType": "all",
+                        "elementType": "labels.text.fill",
+                        "stylers": {
+                            "color": "#857f7f"
+                        }
+                    }, {
+                        "featureType": "all",
+                        "elementType": "labels.text.stroke",
+                        "stylers": {
+                            "color": "#000000"
+                        }
+                    }, {
+                        "featureType": "building",
+                        "elementType": "geometry",
+                        "stylers": {
+                            "color": "#022338"
+                        }
+                    }, {
+                        "featureType": "green",
+                        "elementType": "geometry",
+                        "stylers": {
+                            "color": "#062032"
+                        }
+                    }, {
+                        "featureType": "boundary",
+                        "elementType": "all",
+                        "stylers": {
+                            "color": "#1e1c1c"
+                        }
+                    }, {
+                        "featureType": "manmade",
+                        "elementType": "all",
+                        "stylers": {
+                            "color": "#022338"
+                        }
+                    }]
+                }
+            },
+            series: [{
+                type: 'lines',
+                coordinateSystem: 'bmap',
+                polyline: true,
+                data: lineData,
+                silent: true,
+                lineStyle: {
+                    normal: {
+                        opacity: 0.2,
+                        width: 1
+                    }
+                },
+                progressiveThreshold: 500,
+                progressive: 100
+            }, {
+                type: 'lines',
+                coordinateSystem: 'bmap',
+                polyline: true,
+                data: lineData,
+                lineStyle: {
+                    normal: {
+                        width: 0.02
+                    }
+                },
+                effect: {
+                    constantSpeed: 40,
+                    show: true,
+                    trailLength: 0.02,
+                    symbolSize: 2
+                },
+                zlevel: 1
+            }]
+        };
+
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    </script>
+</body>
+</html>

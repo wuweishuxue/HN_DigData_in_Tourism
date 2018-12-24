@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>ECharts</title>
+    <!-- 引入 echarts.js -->
+    <script src="../echarts.min.js"></script>
+</head>
+<body bgcolor="#F2F2F2">
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <div id="main" style="width: 1242px;height:320px;"></div>
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+
+        // 指定图表的配置项和数据
+        var option = {
+        		backgroundColor: '#122845',
+        		textStyle: {
+    		        color: 'rgba(255, 255, 255, 1)'
+    		    },
+        	    tooltip: {
+        	        trigger: 'axis',
+        	        axisPointer: {
+        	            type: 'cross',
+        	            crossStyle: {
+        	                color: '#999'
+        	            }
+        	        }
+        	    },
+        	    toolbox: {
+        	        feature: {
+        	            dataView: {show: true, readOnly: false},
+        	            magicType: {show: true, type: ['line', 'bar']},
+        	            restore: {show: true},
+        	            saveAsImage: {show: true}
+        	        }
+        	    },
+        	    legend: {
+        	        data:['今年','去年','同比'],
+        	        textStyle: {
+        		        color: 'rgba(255, 255, 255, 1)'
+        		    },
+        	    
+        	    },
+        	    xAxis: [
+        	        {
+        	            type: 'category',
+        	            data: ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'],
+        	            axisPointer: {
+        	                type: 'shadow'
+        	            }
+        	        }
+        	    ],
+        	    yAxis: [
+        	        {
+        	            type: 'value',
+        	            name: '接待游客总人数',
+        	            min: 0,
+        	            max: 1000,
+        	            interval: 200,
+        	            axisLabel: {
+        	                formatter: '{value} 万'
+        	            }
+        	        },
+        	        {
+        	            type: 'value',
+        	            name: '同比',
+        	            min: 0,
+        	            max: 50,
+        	            interval: 10,
+        	            axisLabel: {
+        	                formatter: '{value} %'
+        	            }
+        	        }
+        	    ],
+        	    series: [
+        	        {
+        	            name:'今年',
+        	            type:'bar',
+        	            //color : [ '#E98638' ] ,
+        	            data:[652.28, 908.23, 589.01, 506.95, 504.73, 472.07, 510.58, 547.36, 533.99, 842.47, 731.82, 801.75]
+        	        },
+        	        {
+        	            name:'去年',
+        	            type:'bar',
+        	            color : [ '#E98638' ] ,
+        	            data:[625.51, 628.70, 528.44, 254.06, 473.39, 410.85, 463.38, 505.23, 269.34, 761.07, 671.39, 728.86]
+        	        },
+        	        {
+        	            name:'增长率',
+        	            type:'line',
+        	            yAxisIndex: 1,
+        	            color : [ '#50a3ba'],
+        	            data:[4.1, 44.5, 11.5, 12.1, 6.6, 12.7, 8.7, 6.9, 12.6, 9.7, 12.0, 6.2]
+        	        }
+        	    ]
+        	};
+
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    </script>
+</body>
+</html>

@@ -1,0 +1,163 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Document</title>
+</head>
+
+<body bgcolor="#122845">
+	<!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
+	<div id="main"  style="width: 589px; height: 320px;"></div>
+	
+	<script src="echarts.js"></script>
+    <script src='echarts-wordcloud.js'></script>
+	<script type="text/javascript">
+		// 基于准备好的dom，初始化echarts实例
+            var chart = echarts.init(document.getElementById('main'));
+
+            var option = {
+                tooltip: {},
+                series: [ {
+                    type: 'wordCloud',
+                    gridSize: 2,
+                  //  sizeRange: [12, 50],
+                 //   rotationRange: [-90, 90],
+                //    shape: 'pentagon',
+                  //  width: 600,
+                  //  height: 400,
+                    drawOutOfBound: true,
+                    textStyle: {
+                        normal: {
+                            color: function () {
+                                return 'rgb(' + [
+                                    Math.round(Math.random() * 220),
+                                    Math.round(Math.random() * 220),
+                                    Math.round(Math.random() * 220)
+                                ].join(',') + ')';
+                            }
+                        },
+                        emphasis: {
+                            shadowBlur: 10,
+                            shadowColor: '#333'
+                        }
+                    },
+                    data: [
+                        {
+                            name: '三亚',
+                            value: 900,
+                            textStyle: {
+                                normal: {
+                                    color: 'red'
+                                },
+                                emphasis: {
+                                    color: 'black'
+                                }
+                            }
+                        },
+                        {
+                            name: '海滩',
+                            value: 481
+                        },
+                        {
+                            name: '天气好',
+                            value: 486
+                        },
+                        {
+                            name: '度假',
+                            value: 455
+                        },
+                        {
+                            name: '自由贸易港',
+                            value: 367
+                        },
+                        {
+                            name: '博鳌',
+                            value: 544
+                        },
+                        {
+                            name: '海鲜',
+                            value: 598
+                        },
+                        {
+                            name: '海景房',
+                            value: 484
+                        },
+                        {
+                            name: '环岛高铁',
+                            value: 612
+                        },
+                        {
+                            name: '三亚湾',
+                            value: 465
+                        },
+                        {
+                            name: '大东海',
+                            value: 447
+                        },
+                        {
+                            name: '香水湾',
+                            value: 582
+                        },
+                        {
+                            name: '自驾游',
+                            value: 555
+                        },
+                        {
+                            name: '南海观音',
+                            value: 550
+                        },
+                        {
+                            name: '亚洲论坛',
+                            value: 462
+                        },
+                        {
+                            name: '椰子',
+                            value: 366
+                        },
+                        {
+                            name: '老人',
+                            value: 360
+                        },
+                        {
+                            name: '旅拍',
+                            value: 282
+                        },
+                        {
+                            name: '海航',
+                            value: 273
+                        },
+                        {
+                            name: '蜈支洲岛',
+                            value: 265
+                        },
+                        {
+                            name: '假日海滩',
+                            value: 265
+                        },
+                        {
+                            name: '琼海',
+                            value: 265
+                        },
+                        {
+                            name: '海棠湾',
+                            value: 265
+                        },
+                        {
+                            name: '冯小刚电影城',
+                            value: 265
+                        }
+                    ]
+                } ]
+            };
+
+            chart.setOption(option);
+
+            window.onresize = chart.resize;
+        </script>
+    </body>
+</html>

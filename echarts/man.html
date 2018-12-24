@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>ECharts</title>
+<!-- 引入 echarts.js -->
+<script src="echarts.js"></script>
+</head>
+<body bgcolor="#122845">
+	<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+	<div id="main" style="width: 348px; height: 220px;"></div>
+	<script type="text/javascript">
+		// 基于准备好的dom，初始化echarts实例
+		var myChart = echarts.init(document.getElementById('main'));
+
+		// 指定图表的配置项和数据
+		var option = {
+			backgroundColor: '#122845',
+
+			series : [ {
+				name : '男性比例',
+				type : 'pie',
+				//radius: '55%',
+				avoidLabelOverlap: false,
+				radius : [ '50%', '80%' ],
+				label : {
+					normal : {
+						show : true,
+						name : '41%',
+						position : 'center',
+						textStyle : {
+							fontSize : '30',
+							fontWeight : 'bold'
+						}
+					}
+				},
+				data : [ {
+					value : 41,
+					name : '41%',
+					itemStyle : {
+						color : '#50A3BA',
+						//shadowBlur : 10,
+						//shadowColor : 'rgba(0, 0, 0, 0.5)'
+					}
+				}, {
+					value : 59,
+					name : ' ',
+					itemStyle : {
+						color : '#0E1A2E',
+						//shadowBlur : 10,
+						//shadowColor : 'rgba(0, 0, 0, 0.5)'
+					}
+				}
+
+				],
+			//roseType: 'angle',
+
+			} ]
+		};
+
+		// 使用刚指定的配置项和数据显示图表。
+		myChart.setOption(option);
+	</script>
+</body>
+</html>

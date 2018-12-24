@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Document</title>
+</head>
+
+<body bgcolor="#122845">
+	<!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
+	<div id="echartMap" style="width: 791px; height: 310px;"></div>
+	<script src="jquery.min.js"></script>
+	<script src="echarts.js"></script>
+	<script src="hainan.js"></script>
+	<script src="ColdCar.js"></script>
+	<script type="text/javascript">
+		// 基于准备好的dom，初始化echarts实例
+
+		var myChart = echarts.init(document.getElementById('echartMap'));
+		option = {
+			    title: {
+			       // text: '未来7天进出岛游客流量预测',
+			        textStyle: {
+				        color: '#797979',
+				        fontSize: 16
+				    }
+			       
+			    },
+			    tooltip: {
+			        trigger: 'axis'
+			    },
+			    legend: {
+			        data:['进岛游客','出岛游客'],
+			        textStyle: {
+				        color: 'rgba(255, 255, 255, 1)'
+				    },
+			    },
+			    textStyle: {
+			        color: 'rgba(255, 255, 255, 1)'
+			    },
+			    toolbox: {
+			        show: true,
+			        feature: {
+			            dataZoom: {
+			                yAxisIndex: 'none'
+			            },
+			            dataView: {readOnly: false},
+			            magicType: {type: ['line', 'bar']},
+			            restore: {},
+			            saveAsImage: {}
+			        }
+			    },
+			    xAxis:  {
+			        type: 'category',
+			        boundaryGap: false,
+			        data: ['11月20日','11月22日','11月23日','11月24日','11月25日','11月26日','11月27日']
+			    },
+			    yAxis: {
+			        type: 'value',
+			       
+			    },
+			    series: [
+			        {
+			            name:'进岛游客',
+			            type:'line',
+			            data:[11, 12, 15, 13, 12, 10, 11],
+			            
+			            markPoint: {
+			                data: [
+			                    {type: 'max', name: '最大值'},
+			                    {type: 'min', name: '最小值'}
+			                ]
+			            },
+			            markLine: {
+			                data: [
+			                    {type: 'average', name: '平均值'}
+			                ]
+			            }
+			        },
+			        {
+			            name:'出岛游客',
+			            type:'line',
+			            data:[3, 1, 2, 5, 3, 2, 4],
+			            color : [ '#E98638' ] ,
+			            markPoint: {
+			                data: [
+			                    {name: '最低', value: 1, xAxis: 1, yAxis: 1.5}
+			                ]
+			            },
+			            markLine: {
+			                data: [
+			                    {type: 'average', name: '平均值'},
+			                    [{
+			                        symbol: 'none',
+			                        x: '90%',
+			                        yAxis: 'max'
+			                    }, {
+			                        symbol: 'circle',
+			                        label: {
+			                            normal: {
+			                                position: 'start',
+			                                formatter: '最大值'
+			                            }
+			                        },
+			                        type: 'max',
+			                        name: '最高点'
+			                    }]
+			                ]
+			            }
+			        }
+			    ]
+			};
+
+		myChart.setOption(option);
+	</script>
+</body>
+
+</html>

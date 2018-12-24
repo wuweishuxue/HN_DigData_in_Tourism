@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>入境游客</title>
+    <!-- 引入 echarts.js -->
+    <script src="echarts.min.js"></script>
+</head>
+<body bgcolor="#F2F2F2">
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <div id="main" style="width: 1240px;height:250px;"></div>
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+
+        // 指定图表的配置项和数据
+        var option = {
+        		backgroundColor: '#122845',
+        		textStyle: {
+    		        color: 'rgba(255, 255, 255, 1)'
+    		    },
+        	    tooltip: {
+        	        trigger: 'axis'
+        	    },
+        	    
+        	    
+        	    toolbox: {
+  			        show: true,
+  			        feature: {
+  			            dataZoom: {
+  			                yAxisIndex: 'none'
+  			            },
+  			           dataView: {readOnly: false},
+  			            magicType: {type: ['line', 'bar']},
+  			            restore: {},
+  			            saveAsImage: {}
+  			        }
+  			    },
+        	    legend: {
+        	    	textStyle: {
+        		        color: 'rgba(255, 255, 255, 1)'
+        		    },
+        	        data:['马来西亚','韩国','印度尼西亚','俄罗斯','入境游客总量']
+        	    },
+        	    grid: {
+        	        left: '3%',
+        	        right: '4%',
+        	        bottom: '3%',
+        	        containLabel: true
+        	    },
+        	    toolbox: {
+  			        show: true,
+  			        feature: {
+  			            dataZoom: {
+  			                yAxisIndex: 'none'
+  			            },
+  			           dataView: {readOnly: false},
+  			            magicType: {type: ['line', 'bar']},
+  			            restore: {},
+  			            saveAsImage: {}
+  			        }
+  			    },
+        	    xAxis: {
+        	        type: 'category',
+        	        boundaryGap: false,
+        	        data: ['2018-01','2018-02','2018-03','2018-04','2018-05','2018-06','2018-07','2018-09','2018-10','2018-11']
+        	    },
+        	    yAxis: {
+        	        type: 'value'
+        	    },
+        	    series: [
+        	    	
+        	        {
+        	            name:'马来西亚',
+        	            type:'line',
+        	            stack: '总量',
+        	            color : [ '#8543E0' ] ,
+        	            data:[3208, 1667, 4545, 3305, 2898, 5434, 3927,4947,5416,5116,4116]
+        	        },
+        	        
+        	        {
+        	            name:'韩国',
+        	            type:'line',
+        	            stack: '总量',
+        	            color : [ '#2FC25B' ] ,
+        	            data:[13880, 8809, 6821, 5724, 7981, 8541, 7207,6175,5243,5052,6052]
+        	        },
+        	        
+        	        {
+        	            name:'印度尼西亚',
+        	            type:'line',
+        	            stack: '总量',
+        	            color : [ '#13C2C2' ] ,
+        	            data:[8559, 2278, 6023, 5848, 13777, 12502, 13227,14778,13777,12777,13077]
+        	        },
+        	        {
+       	        	 name:'俄罗斯',
+        	            type:'line',
+        	            stack: '总量',
+        	            color : [ '#E98638' ] ,
+        	            data:[22770, 16996, 24523, 23200, 15762, 14430, 15269,17025,20052,21052,19052]
+       	            },
+        	        {
+        	            name:'入境游客总量',
+        	            type:'line',
+        	            stack: '总量',
+        	            color : [ '#F04864' ] ,
+        	            data:[75400 , 48900, 69500, 69400, 61200, 66200, 65900,74200,69500,21052,19052]
+        	        }
+        	    ]
+        	};
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    </script>
+</body>
+</html>

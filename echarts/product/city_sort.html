@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>客源分布</title>
+    <!-- 引入 echarts.js -->
+    <script src="../echarts.min.js"></script>
+</head>
+<body bgcolor="#122845">
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <div id="main" style="width: 828px;height:270px;"></div>
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+
+        // 指定图表的配置项和数据
+        var option = {
+        	backgroundColor: '#122845',
+          /*   title: {
+                text: 'ECharts 入门示例'
+            }, */
+        	textStyle: {
+		        color: 'rgba(255, 255, 255, 1)'
+		    },
+            tooltip: {},
+            legend: {
+                data:['客源地']
+            },
+            xAxis: {
+            	 data: ['北京','上海','深圳','杭州','长沙','武汉','郑州','南京','成都','重庆']
+                //,'广西','陕西','江西','福建','贵州','云南','山东','天津','辽宁','黑龙江'
+            },
+            yAxis: {},
+            series: [{
+                name: '客源',
+                type: 'bar',
+                color : [ '#E98638' ] ,
+	            data: [70,45,43,42,42,31,30,28,25,20]
+            //,26,21,20,18,18,17,16,15,12,12
+            }]
+        };
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    </script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>ECharts</title>
+    <!-- 引入 echarts.js -->
+    <script src="echarts.min.js"></script>
+</head>
+<body bgcolor="#F2F2F2">
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <div id="main" style="width: 621px;height:606px;"></div>
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+
+        // 指定图表的配置项和数据
+        var option = {
+        		backgroundColor: '#122845',
+        		textStyle: {
+    		        color: 'rgba(255, 255, 255, 1)'
+    		    },
+        	    tooltip: {
+        	        trigger: 'axis',
+        	        axisPointer: {
+        	            type: 'shadow'
+        	        }
+        	    },
+        	      toolbox: {
+  			        show: true,
+  			        feature: {
+  			            dataZoom: {
+  			                yAxisIndex: 'none'
+  			            },
+  			           dataView: {readOnly: false},
+  			            magicType: {type: ['line', 'bar']},
+  			            restore: {},
+  			            saveAsImage: {}
+  			        }
+  			    },
+        	    
+        	    grid: {
+        	        left: '3%',
+        	        right: '6%',
+        	        bottom: '5%',
+        	        containLabel: true
+        	    },
+        	    xAxis: {
+        	      //  type: 'value',
+        	      //  boundaryGap: [0, 0.01]
+        	    },
+        	    yAxis: {
+        	        type: 'category',
+        	        data: ['红色娘子军纪念园','五公祠','海南分界洲旅游区','三亚凤凰岭海誓山盟景区','海口骑楼小吃风情街','亚龙湾海底世界','海南呀诺达雨林文化旅游区','亚龙湾热带天堂森林旅游区','蜈支洲岛旅游区','南山文化旅游区','三亚大东海旅游区','海口假日海滩','亚龙湾国家旅游度假区']
+        	    },
+        	    series: [
+        	        {
+        	            name: '游客',
+        	            type: 'bar',
+        	            color : [ '#E98638' ] ,
+        	            data: [5,10,20,30,30,30,30,31,42,42,46,75,100]
+        	        }
+        	    ]
+        	};
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    </script>
+</body>
+</html>
